@@ -1,7 +1,5 @@
 <template>
   <div class="main-container">
-    <h2>Book List</h2>
-
     <!-- book list -->
     <div class="book-list">
       <div class="book-card" v-for="book in books" :key="book.id">
@@ -67,7 +65,6 @@ export default {
   },
 };
 </script>
-
 
 
 <style scoped>
