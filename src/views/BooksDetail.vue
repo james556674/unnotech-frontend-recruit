@@ -38,13 +38,8 @@
 
 <script>
 import BookList from "../components/BookList.vue";
-
-const dummyData = {
-  id: 1,
-  price: 650,
-  count: 10,
-  num: 0,
-};
+import booksAPI from "./../apis/books.js";
+import { Toast } from "./../utils/helpers";
 
 export default {
   components: {
@@ -57,12 +52,28 @@ export default {
   },
 
   created() {
-    this.fetchBookDetailData();
+    const { id } = this.$route.params;
+    this.fetchBookDetailData(id);
+  },
+  beforeRouteUpdate(to, from, next) {
+    // 路由改變時重新抓取資料
+    const { id } = to.params;
+    this.fetchBookDetailData(id);
+    next();
   },
 
   methods: {
-    fetchBookDetailData() {
-      this.bookDetail = dummyData;
+    // connect api to get book detail
+    async fetchBookDetailData(bookId) {
+      try {
+        const response = await booksAPI.getBookDetail({ bookId });
+        this.bookDetail = response.data;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得資料，請稍後再試",
+        });
+      }
     },
     plusCount() {
       this.bookDetail.count++;
