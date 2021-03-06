@@ -3,8 +3,12 @@
     <!-- book list -->
     <div class="book-list">
       <div class="book-card" v-for="book in books" :key="book.id">
-        <img :src="book.image" />
-        <div class="book-name">{{ book.name }}</div>
+        <router-link
+          :to="{ name: 'book-detail-page', params: { id: book.id } }"
+        >
+          <img :src="book.image" />
+          <div class="book-name">{{ book.name }}</div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -114,9 +118,16 @@ export default {
 
 .book-card .book-name:hover {
   cursor: pointer;
-  color: #101935;
-  border: #101935 solid 1px;
+  color: darkolivegreen;
   background: #fff;
+}
+
+.router-link-active {
+  width: 100%;
+  height: calc(100% + 30px);
+  color: darkolivegreen;
+  border: 2px solid darkolivegreen;
+  padding-left: 0.3rem;
 }
 
 @media screen and (min-width: 768px) {

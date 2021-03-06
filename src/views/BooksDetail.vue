@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <h2>this is a book detail page</h2>
+    <h2>Book Detail</h2>
     <BookList />
     <div>
       <form class="book-detail-wrapper">
