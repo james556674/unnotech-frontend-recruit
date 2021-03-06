@@ -3,7 +3,7 @@
     <h2>Book Detail</h2>
     <BookList />
     <div>
-      <form class="book-detail-wrapper">
+      <form @submit.stop.prevent="handleSubmit" class="book-detail-wrapper">
         <div class="book-detail">
           <div class="form-group">
             <label for="quantity">價格 :</label>
@@ -56,7 +56,7 @@ export default {
     this.fetchBookDetailData(id);
   },
   beforeRouteUpdate(to, from, next) {
-    // 路由改變時重新抓取資料
+    // get data when route change
     const { id } = to.params;
     this.fetchBookDetailData(id);
     next();
@@ -72,6 +72,49 @@ export default {
         Toast.fire({
           icon: "error",
           title: "無法取得資料，請稍後再試",
+        });
+      }
+    },
+    async handleSubmit(e) {
+      try {
+        //price and count can't less than 0
+        if (
+          Number(this.bookDetail.price) < 0 ||
+          Number(this.bookDetail.count) < 0
+        ) {
+          Toast.fire({
+            icon: "warning",
+            title: "價格與數量不能小於 0",
+          });
+          return;
+        }
+
+        const form = e.target;
+        const formData = new FormData(form);
+        // covert formData to JSON
+        const object = {};
+        formData.forEach(function (value, key) {
+          object[key] = value;
+        });
+        const JsonData = JSON.stringify(object);
+
+        const { data } = await booksAPI.editBookDetail({
+          bookId: this.bookDetail.id,
+          formData: JsonData,
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "資料更新成功",
+        });
+
+        if (!data) {
+          throw new Error(data.message);
+        }
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法更新資料，請稍後再試",
         });
       }
     },

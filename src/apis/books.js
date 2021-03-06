@@ -7,5 +7,12 @@ export default {
   },
   getBookDetail({ bookId }) {
     return apiHelper.get(`/profile/${bookId}`)
+  },
+  editBookDetail({ bookId, formData, }) {
+    return apiHelper.patch(`/profile/${bookId}`, formData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 }
