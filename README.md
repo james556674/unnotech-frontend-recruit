@@ -12,14 +12,11 @@
 1. Clone the project
 git clone https://github.com/james556674/unnotech-frontend-recruit.git
 
-2. Install all dependencies
-npm install
+2. Install vue
+npm install @vue/cli
 
-# Run the server
+3. Run the server
 npm run serve
-
-# Or run the server with nodemon
-npm run dev
 
 ```
 
